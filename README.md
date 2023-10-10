@@ -2,9 +2,11 @@
 
 ## What
 
-This repository builds artifacts for the standalone jdk.compiler, specifically
-contents of arbitrary java.home directories, specifically the contents of
-lib/modules and lib/ct.sym, which are required by the standalone compiler.
+This repository builds artifacts for the [standalone
+jdk.compiler](https://github.com/kohlschutter/jdk.compiler.standalone),
+specifically contents of arbitrary java.home directories, specifically the
+contents of lib/modules and lib/ct.sym, which are required by the standalone
+compiler.
 
 ## Why
 
