@@ -14,6 +14,26 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
     
+    <scm>
+        <url>https://github.com/kohlschutter/jdk.compiler.home</url>
+        <connection>scm:git:git@github.com:kohlschutter/jdk.compiler.home.git</connection>
+        <developerConnection>scm:git:git@github.com:kohlschutter/jdk.compiler.home.git</developerConnection>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <site>
+            <id>github.com/kohlschutter/jdk.compiler.home</id>
+            <url>gitsite:git@github.com/kohlschutter/jdk.compiler.home.git</url>
+        </site>
+    </distributionManagement>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/kohlschutter/jdk.compiler.home/issues</url>
+    </issueManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.kohlschutter</groupId>
