@@ -27,7 +27,7 @@ public class JavaHomeExtractor {
       return;
     }
     File targetClasses = new File(args[1]);
-    if (!targetClasses.isDirectory()) {
+    if (!targetClasses.isDirectory() && !targetClasses.mkdir()) {
       throw new IllegalStateException("Not a directory: " + targetClasses);
     }
 
