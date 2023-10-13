@@ -23,18 +23,33 @@ is created:
 Run the following commands to build a jar containing all required contents from
 a given java.home directory:
 
-    mvn clean install -Dclassifier=jdk11-javac -Djavahome.dir=/Library/Java/JavaVirtualMachines/jdk-11.0.20.1+1/Contents/Home
+    mvn clean install -Dclassifier=custom -Djavahome.dir=/Library/Java/JavaVirtualMachines/jdk-11.0.20.1+1/Contents/Home
 
 (adjust the path accordingly, and change the value for "classifier" as well)
+
+To release "jdk11" and "jdk21" artifacts (for `jdk.compiler.standalone`), use the following:
+
+    mvn clean install -Djdk11.home=/path/to/java11home -Djdk21.home=/path/to/java21home
 
 ## Caveats
 
 When working in Eclipse, close the project "standalone-home", otherwise
 workspace resolution may not find the right jar.
 
+## When (Changelog)
+
+### _(2023-10-13)_ jdk.compiler.home 1.1.0
+
+- Provide both `jdk11` and `jdk21` artifacts
+- Add GraalVM native-image support
+
+### _(2023-10-10)_ jdk.compiler.home 1.0.0
+
+- Initial release
+
 ## Who
 
-This repository has been packaged by Christian Kohlschütter.
+This repository has been packaged by [Christian Kohlschütter](https://kohlschuetter.github.io/blog/).
 
 The code itself carries the original license, GNU General Public License
 version 2 only, subject to the "Classpath" exception as provided in
