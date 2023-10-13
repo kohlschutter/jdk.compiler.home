@@ -1,0 +1,9 @@
+{
+    "resources": {
+        "includes": [
+            {
+                "pattern": "\\Qcom/kohlschutter/jdk/home\\E.*"
+            }
+        ]
+    }
+}
