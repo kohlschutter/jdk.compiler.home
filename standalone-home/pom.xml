@@ -27,7 +27,7 @@
 
     <profiles>
         <profile>
-            <id>slim-default-jar</id>
+            <id>classifier</id>
             <activation>
                 <property>
                     <name>classifier</name>
@@ -47,22 +47,23 @@
                                 <goals>
                                     <goal>java</goal>
                                 </goals>
+                                <configuration>
+                                    <mainClass>
+                                        com.kohlschutter.jdk.buildutil.JavaHomeExtractor</mainClass>
+                                    <workingDirectory>/tmp</workingDirectory>
+                                    <arguments>
+                                        <argument>${javahome.dir}</argument>
+                                        <argument>
+                                            ${project.build.directory}/classes-${classifier}</argument>
+                                    </arguments>
+                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <executableDependency>
+                                        <groupId>com.kohlschutter.jdk</groupId>
+                                        <artifactId>build-util</artifactId>
+                                    </executableDependency>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <mainClass>
-                                com.kohlschutter.jdk.buildutil.JavaHomeExtractor</mainClass>
-                            <workingDirectory>/tmp</workingDirectory>
-                            <arguments>
-                                <argument>${javahome.dir}</argument>
-                                <argument>${project.build.directory}/classes</argument>
-                            </arguments>
-                            <includePluginDependencies>true</includePluginDependencies>
-                            <executableDependency>
-                                <groupId>com.kohlschutter.jdk</groupId>
-                                <artifactId>build-util</artifactId>
-                            </executableDependency>
-                        </configuration>
                         <dependencies>
                             <dependency>
                                 <groupId>com.kohlschutter.jdk</groupId>
@@ -70,6 +71,31 @@
                                 <version>${project.version}</version>
                             </dependency>
                         </dependencies>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-classifier</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <outputDirectory>
+                                        ${project.build.directory}/classes-${classifier}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>
+                                                ${project.build.directory}/classes</directory>
+                                            <includes>
+                                                <include>**</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -82,6 +108,192 @@
                                 </goals>
                                 <configuration>
                                     <classifier>${classifier}</classifier>
+                                    <classesDirectory>
+                                        ${project.build.directory}/classes-${classifier}</classesDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jdk11</id>
+            <activation>
+                <property>
+                    <name>jdk11.home</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <?m2e ignore?>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>extract-modules-jdk11</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>
+                                        com.kohlschutter.jdk.buildutil.JavaHomeExtractor</mainClass>
+                                    <workingDirectory>/tmp</workingDirectory>
+                                    <arguments>
+                                        <argument>${jdk11.home}</argument>
+                                        <argument>
+                                            ${project.build.directory}/classes-jdk11</argument>
+                                    </arguments>
+                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <executableDependency>
+                                        <groupId>com.kohlschutter.jdk</groupId>
+                                        <artifactId>build-util</artifactId>
+                                    </executableDependency>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.kohlschutter.jdk</groupId>
+                                <artifactId>build-util</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-jdk11</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <outputDirectory>
+                                        ${project.build.directory}/classes-jdk11</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>
+                                                ${project.build.directory}/classes</directory>
+                                            <includes>
+                                                <include>**</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>classifier-jdk11</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>jdk11</classifier>
+                                    <classesDirectory>
+                                        ${project.build.directory}/classes-jdk11</classesDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jdk21</id>
+            <activation>
+                <property>
+                    <name>jdk21.home</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <?m2e ignore?>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>extract-modules-jdk21</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>
+                                        com.kohlschutter.jdk.buildutil.JavaHomeExtractor</mainClass>
+                                    <workingDirectory>/tmp</workingDirectory>
+                                    <arguments>
+                                        <argument>${jdk21.home}</argument>
+                                        <argument>
+                                            ${project.build.directory}/classes-jdk21</argument>
+                                    </arguments>
+                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <executableDependency>
+                                        <groupId>com.kohlschutter.jdk</groupId>
+                                        <artifactId>build-util</artifactId>
+                                    </executableDependency>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.kohlschutter.jdk</groupId>
+                                <artifactId>build-util</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-jdk21</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <outputDirectory>
+                                        ${project.build.directory}/classes-jdk21</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>
+                                                ${project.build.directory}/classes</directory>
+                                            <includes>
+                                                <include>**</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>classifier-jdk21</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>jdk21</classifier>
+                                    <classesDirectory>
+                                        ${project.build.directory}/classes-jdk21</classesDirectory>
                                 </configuration>
                             </execution>
                         </executions>
@@ -104,12 +316,6 @@
                         </goals>
                         <configuration>
                             <classifier></classifier>
-                            <includes>
-                                <include>META-INF/**</include>
-                                <include>module-info.class</include>
-                                <include>
-                                    com/kohlschutter/jdk/home/JavaHome.class</include>
-                            </includes>
                         </configuration>
                     </execution>
                 </executions>
